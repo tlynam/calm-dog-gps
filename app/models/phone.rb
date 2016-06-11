@@ -24,6 +24,11 @@ class Phone < ActiveRecord::Base
     end
   end
 
+  def self.update_locations_and_play_music_if_near_home
+    Phone.update_locations!
+    Phone.play_music_if_near_home
+  end
+
   def update_location!
     response = request :post, "fmipservice/client/web/initClient"
 

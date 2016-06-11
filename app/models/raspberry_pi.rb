@@ -12,9 +12,9 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :exclusion_zones, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
-  def self.play_music
   after_save :set_volume, if: :volume_changed?
 
+  def play_music
     system("#{audio_player} app/assets/audios/beethoven_sontata_no_14.mp3")
   end
 
