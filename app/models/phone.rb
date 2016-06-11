@@ -19,7 +19,7 @@ class Phone < ActiveRecord::Base
     Phone.all.each do |phone|
       if phone.near_home?
         phone.update_attribute(:is_home, true)
-        RaspberryPi.play_music
+        RaspberryPi.first.play_music
       end
     end
   end

@@ -2,6 +2,7 @@ class RaspberryPi < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_numericality_of :volume, :duration
+  validates :volume, :inclusion => { :in => 1..100 }
 
   has_one :home
   has_many :exclusion_zones
@@ -12,10 +13,22 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
   def self.play_music
+  after_save :set_volume, if: :volume_changed?
+
     system("#{audio_player} app/assets/audios/beethoven_sontata_no_14.mp3")
   end
 
   private
+
+  def set_volume
+    if OS.osx?
+      # OSX max volume is 7 so using approximate scaling
+      adjusted_volume = (volume * 0.75) / 10
+      system("osascript -e 'set volume #{adjusted_volume}'")
+    elsif OS.linux?
+      system("amixer cset numid=1 -- #{volume}%")
+    end
+  end
 
   def self.audio_player
     return "aplay" if OS.linux?
