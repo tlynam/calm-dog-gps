@@ -15,6 +15,15 @@ class Phone < ActiveRecord::Base
     end
   end
 
+  def self.play_music_if_near_home
+    Phone.all.each do |phone|
+      if phone.near_home?
+        phone.update_attribute(:is_home, true)
+        RaspberryPi.play_music
+      end
+    end
+  end
+
   def update_location!
     response = request :post, "fmipservice/client/web/initClient"
 
