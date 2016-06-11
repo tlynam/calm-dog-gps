@@ -38,7 +38,7 @@ class Phone < ActiveRecord::Base
     update_attributes!(
       lat: location['location']['latitude'],
       lng: location['location']['longitude'],
-      location_updated_at: Time.now
+      location_updated_at: Time.current
     )
   end
 

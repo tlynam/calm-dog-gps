@@ -2,7 +2,6 @@
   = f.input :icloud_device_name, label: "iCloud device name"
   = f.input :icloud_username, label: "iCloud username"
   = f.input :icloud_password, label: "iCloud password"
-  = f.input :lat, label: "Last Latitude", readonly: true
-  = f.input :lng, label: "Last Longitude", readonly: true
-  = f.input :location_updated_at, label: "Location last updated", readonly: true
+  .form-group
+    = phone_last_updated(f.object)
   = link_to_remove_association "remove phone", f
