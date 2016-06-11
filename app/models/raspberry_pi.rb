@@ -23,7 +23,7 @@ class RaspberryPi < ActiveRecord::Base
   def set_volume
     if OS.osx?
       # OSX max volume is 7 so using approximate scaling
-      adjusted_volume = (volume * 0.75) / 10
+      adjusted_volume = (volume * 0.70) / 10
       system("osascript -e 'set volume #{adjusted_volume}'")
     elsif OS.linux?
       system("amixer cset numid=1 -- #{volume}%")
