@@ -13,6 +13,7 @@ gem 'geokit-rails'
 gem 'httparty'
 gem 'cocoon'
 gem 'simple_form'
+gem 'os'
 
 group :development, :test do
   gem 'pry-rails'

@@ -93,6 +93,7 @@ GEM
     multi_xml (0.5.5)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    os (0.9.6)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -178,6 +179,7 @@ DEPENDENCIES
   haml
   httparty
   jquery-rails
+  os
   pry-nav
   pry-rails
   pry-stack_explorer

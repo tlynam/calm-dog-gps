@@ -12,6 +12,14 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
   def self.play_music
-    system("afplay app/assets/audios/furelise.mp3")
+    system("#{audio_player} app/assets/audios/furelise.mp3")
+  end
+
+  private
+
+  def self.audio_player
+    return "aplay" if OS.linux?
+    return "afplay" if OS.osx?
+    raise "Audio player not configured for this OS"
   end
 end
