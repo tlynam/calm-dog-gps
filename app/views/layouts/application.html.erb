@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CalmDog</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2aruBrV4IBLTSC74XOEpvYkQDIPHEbg0&libraries=places"></script>
+</head>
+<body>
+
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger" role="alert"><%= alert %></p>
+<% end %>
+<%= yield %>
+
+</body>
+</html>

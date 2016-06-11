@@ -1,0 +1,49 @@
+.container
+  .col-md-12
+    %h1
+      Calm Dog
+
+    = simple_form_for(@raspberry_pi, url: raspberry_pis_path(@post), html: {class: "form-horizontal"}) do |f|
+      .col-md-12
+        %ul.list-unstyled
+          - f.object.errors.messages.each do |field, message|
+            %li.error
+              #{field}
+              #{message.join(", ")}
+
+      .col-md-12
+        %h3
+          Home info
+      .col-md-8.col-md-offset-1
+        = f.simple_fields_for :home do |home|
+          = render 'home_fields', f: home
+
+      .col-md-12
+        %h3
+          Raspberry Pi Settings
+      .col-md-8.col-md-offset-1
+        = f.input :enabled
+        = f.input :volume
+        = f.input :duration, label: "Duration (seconds)"
+        = f.input :audio_file_paths
+
+      .col-md-12
+        %h3
+          Phones
+      .col-md-8.col-md-offset-1
+        = f.simple_fields_for :phones do |phone|
+          = render 'phone_fields', f: phone
+        .links
+          = link_to_add_association 'add phone', f, :phones
+
+      .col-md-12
+        %h3
+          Exclusion Zones
+      .col-md-8.col-md-offset-1
+        = f.simple_fields_for :exclusion_zones do |exclusion_zone|
+          = render 'exclusion_zone_fields', f: exclusion_zone
+        .links
+          = link_to_add_association 'add exclusion zone', f, :exclusion_zones, html_options = { class: "add-zone" }
+
+      .col-md-12
+        = f.submit "Save Changes", class: "btn btn-success margin-top margin-bottom"

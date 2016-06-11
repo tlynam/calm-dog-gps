@@ -1,0 +1,2 @@
+class ExclusionZone < Location
+end
