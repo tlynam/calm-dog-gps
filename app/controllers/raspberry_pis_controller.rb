@@ -20,7 +20,7 @@ class RaspberryPisController < ApplicationController
 
   def raspberry_pi_params
     params.require(:raspberry_pi).permit(
-      :name, :enabled, :volume, :duration, :audio_file_paths,
+      :name, :enabled, :volume, :duration, :audio_file,
         phones_attributes: [
           :id, :_destroy, :icloud_device_name, :icloud_username, :icloud_password, :lat, :lng, :location_updated_at
         ],

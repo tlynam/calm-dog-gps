@@ -25,7 +25,7 @@
         = f.input :enabled
         = f.input :volume
         = f.input :duration, label: "Duration (seconds)"
-        = f.input :audio_file_paths
+        = f.input :audio_file, collection: audio_file_collection, include_blank: false
 
       .col-md-12
         %h3

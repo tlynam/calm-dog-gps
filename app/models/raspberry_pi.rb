@@ -15,7 +15,7 @@ class RaspberryPi < ActiveRecord::Base
   after_save :set_volume, if: :volume_changed?
 
   def play_music
-    system("#{audio_player} app/assets/audios/beethoven_sontata_no_14.mp3")
+    system("#{self.class.audio_player} #{audio_file}")
   end
 
   private

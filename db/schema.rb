@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611045540) do
+ActiveRecord::Schema.define(version: 20160611181317) do
 
   create_table "locations", force: :cascade do |t|
     t.integer  "raspberry_pi_id"
@@ -40,13 +40,13 @@ ActiveRecord::Schema.define(version: 20160611045540) do
   add_index "phones", ["raspberry_pi_id"], name: "index_phones_on_raspberry_pi_id"
 
   create_table "raspberry_pis", force: :cascade do |t|
-    t.string   "name",             default: "Raspberry Pi", null: false
-    t.boolean  "enabled",          default: true,           null: false
-    t.integer  "volume",           default: 50,             null: false
-    t.integer  "duration",         default: 180,            null: false
-    t.text     "audio_file_paths"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.string   "name",       default: "Raspberry Pi", null: false
+    t.boolean  "enabled",    default: true,           null: false
+    t.integer  "volume",     default: 50,             null: false
+    t.integer  "duration",   default: 180,            null: false
+    t.string   "audio_file"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
 end
