@@ -24,7 +24,7 @@
       .col-md-8.col-md-offset-1
         = f.input :enabled
         = f.input :volume
-        = f.input :duration, label: "Duration (seconds)"
+        = f.input :duration, label: "Duration (in minutes, will play full audio file enough times to cover duration)"
         = f.input :audio_file, collection: audio_file_collection, include_blank: false
 
       .col-md-12

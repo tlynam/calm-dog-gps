@@ -15,7 +15,7 @@ class RaspberryPi < ActiveRecord::Base
   after_save :set_volume, if: :volume_changed?
 
   def play_music
-    system("#{self.class.audio_player} #{audio_file}")
+    system("for run in {1..#{times_play_audio}}; do #{self.class.audio_player} #{audio_file}; done")
   end
 
   private
@@ -31,8 +31,31 @@ class RaspberryPi < ActiveRecord::Base
   end
 
   def self.audio_player
-    return "aplay" if OS.linux?
-    return "afplay" if OS.osx?
-    raise "Audio player not configured for this OS"
+    if OS.osx?
+      "afplay"
+    elsif OS.linux?
+      "aplay"
+    else
+      raise "Audio player not configured for this OS"
+    end
+  end
+
+  def audio_duration_seconds
+    if OS.osx?
+      output = `afinfo #{audio_file}`
+      duration_str = output.split("\n").find { |data| data.include?("estimated duration") }
+      duration_str.match(/\d+/).to_s.to_i
+    elsif OS.linux?
+      output = `avprobe #{audio_file}`
+      duration_str = output.split("\n").find { |data| data.include?("Duration:") }
+      time_str = duration_str.squish.gsub("Duration: ", "").match(/[0-9:]+/).to_s
+      # Hack, duration format is hr:mm:ss so setting it as current time
+      Time.parse(time_str) - Time.now.midnight
+    end
+  end
+
+  def times_play_audio
+    duration_seconds = duration * 60
+    (duration_seconds / audio_duration_seconds) + 1
   end
 end
