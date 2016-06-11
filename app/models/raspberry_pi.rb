@@ -12,7 +12,7 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
   def self.play_music
-    system("#{audio_player} app/assets/audios/furelise.mp3")
+    system("#{audio_player} app/assets/audios/beethoven_sontata_no_14.mp3")
   end
 
   private
