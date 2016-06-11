@@ -43,9 +43,18 @@ class Phone < ActiveRecord::Base
   end
 
   def near_home?
-    home_address = GoogleGeocoder.geocode(raspberry_pi.home.address)
-
     phone_location = GoogleGeocoder.reverse_geocode([lat,lng])
+
+    exclusion_flag = false
+
+    raspberry_pi.exclusion_zones.each do |exclusion_zone|
+      address = GoogleGeocoder.geocode(exclusion_zone.address)
+      exclusion_flag = true if address.distance_to(phone_location) < exclusion_zone.radius
+    end
+
+    return false if exclusion_flag
+
+    home_address = GoogleGeocoder.geocode(raspberry_pi.home.address)
 
     if home_address.distance_to(phone_location) < raspberry_pi.home.radius
       # If already home then don't trigger
