@@ -4,7 +4,7 @@ class RaspberryPisController < ApplicationController
   end
 
   def update
-    if raspberry_pi.update_attributes(raspberry_pi_params)
+    if raspberry_pi.update_attributes(params_without_pw)
       redirect_to root_path, notice: "Raspberry Pi has been successfully updated"
     else
       flash[:alert] = 'Please Review the errors below'
@@ -31,5 +31,17 @@ class RaspberryPisController < ApplicationController
           :id, :_destroy, :type, :radius, :address
         ]
     )
+  end
+
+  def params_without_pw
+    non_phone_params = raspberry_pi_params.dup.except("phones_attributes")
+
+    phone_params = raspberry_pi_params.dup["phones_attributes"]
+
+    phone_params.each do |phone|
+      phone[1].delete("icloud_password") if phone[1]["icloud_password"].blank?
+    end
+
+    non_phone_params.merge(phones_attributes: phone_params)
   end
 end
