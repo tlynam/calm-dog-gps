@@ -39,7 +39,7 @@ class RaspberryPi < ActiveRecord::Base
     if OS.osx?
       "afplay"
     elsif OS.linux?
-      "aplay"
+      "omxplayer"
     else
       raise "Audio player not configured for this OS"
     end
