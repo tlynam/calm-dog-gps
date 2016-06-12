@@ -25,8 +25,10 @@ class Phone < ActiveRecord::Base
   end
 
   def self.update_locations_and_play_music_if_near_home
-    Phone.update_locations!
-    Phone.play_music_if_near_home
+    if RaspberryPi.first.enabled?
+      Phone.update_locations!
+      Phone.play_music_if_near_home
+    end
   end
 
   def update_location!
