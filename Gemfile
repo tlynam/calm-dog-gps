@@ -14,6 +14,7 @@ gem 'httparty'
 gem 'cocoon'
 gem 'simple_form'
 gem 'os'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'pry-rails'

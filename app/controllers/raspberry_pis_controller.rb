@@ -39,7 +39,7 @@ class RaspberryPisController < ApplicationController
     phone_params = raspberry_pi_params.dup["phones_attributes"]
 
     phone_params.each do |phone|
-      if phone[1]["icloud_password"].try?(:blank?)
+      if phone[1]["icloud_password"].try(:blank?)
         phone[1].delete("icloud_password")
       end
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611181317) do
+ActiveRecord::Schema.define(version: 20160612002223) do
 
   create_table "locations", force: :cascade do |t|
     t.integer  "raspberry_pi_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20160611181317) do
     t.string   "audio_file"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "interval",   default: 5,              null: false
   end
 
 end
