@@ -32,7 +32,7 @@ class RaspberryPi < ActiveRecord::Base
   end
 
   def set_cron_interval
-    system("whenever --update-crontab")
+    system("RAILS_ENV=production whenever --update-crontab")
   end
 
   def self.audio_player
