@@ -51,7 +51,7 @@ class RaspberryPi < ActiveRecord::Base
       duration_str = output.split("\n").find { |data| data.include?("estimated duration") }
       duration_str.match(/\d+/).to_s.to_i
     elsif OS.linux?
-      output = `avprobe #{audio_file}`
+      output = `avprobe #{audio_file} 2>&1`
       duration_str = output.split("\n").find { |data| data.include?("Duration:") }
       time_str = duration_str.squish.gsub("Duration: ", "").match(/[0-9:]+/).to_s
       # Hack, duration format is hr:mm:ss so setting it as current time
