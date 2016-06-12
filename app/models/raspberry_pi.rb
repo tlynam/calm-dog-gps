@@ -13,7 +13,7 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
   after_save :set_volume, if: :volume_changed?
-  after_save :set_cron_interval, if: :interval_changed?
+  after_commit :set_cron_interval, if: :interval_changed?
 
   def play_music
     system("for run in {1..#{times_play_audio}}; do #{self.class.audio_player} #{audio_file}; done")
