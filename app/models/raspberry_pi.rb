@@ -13,7 +13,7 @@ class RaspberryPi < ActiveRecord::Base
   accepts_nested_attributes_for :home, reject_if: :all_blank, allow_destroy: true
 
   after_save :set_volume, if: :volume_changed?
-  after_commit :set_cron_interval, :if => Proc.new { |record|
+  after_commit :set_cron, :if => Proc.new { |record|
     record.previous_changes.key?(:interval) &&
     record.previous_changes[:interval].first != record.previous_changes[:interval].last
   }
@@ -34,8 +34,14 @@ class RaspberryPi < ActiveRecord::Base
     end
   end
 
-  def set_cron_interval
-    system("RAILS_ENV=production whenever --update-crontab")
+  def set_cron
+    # Writing directly to crontab so don't need to load Rails env as it's slow on Pi
+    # https://github.com/javan/whenever/blob/master/lib/whenever/command_line.rb#L67
+    contents = Whenever::CommandLine.new.send(:updated_crontab)
+    IO.popen('crontab -', 'r+') do |crontab|
+      crontab.write(contents)
+      crontab.close_write
+    end
   end
 
   def self.audio_player
