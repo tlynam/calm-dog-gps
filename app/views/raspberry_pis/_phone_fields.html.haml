@@ -1,8 +1,8 @@
 .nested-fields
-  .form-group
-    = phone_last_updated(f.object)
-  = f.input :is_home, label: "Is home?"
   = f.input :icloud_device_name, label: "iCloud device name"
   = f.input :icloud_username, label: "iCloud username"
   = f.input :icloud_password, label: "iCloud password (leave blank to keep existing password)"
+  = f.input :is_home, label: "Is home?"
+  .form-group
+    = phone_last_updated(f.object)
   = link_to_remove_association "remove phone", f
