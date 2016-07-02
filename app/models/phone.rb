@@ -10,24 +10,23 @@ class Phone < ActiveRecord::Base
   acts_as_mappable
 
   def self.update_locations!
-    Phone.all.each do |phone|
+    all.each do |phone|
       phone.update_location!
     end
   end
 
   def self.play_music_if_near_home
-    Phone.all.each do |phone|
-      if phone.near_home?
-        phone.update_attribute(:is_home, true)
-        RaspberryPi.first.play_music
-      end
+    all.each do |phone|
+      near = phone.near_home?
+      RaspberryPi.first.play_music if near && !phone.is_home?
+      phone.update(is_home: near)
     end
   end
 
   def self.update_locations_and_play_music_if_near_home
     if RaspberryPi.first.enabled?
-      Phone.update_locations!
-      Phone.play_music_if_near_home
+      update_locations!
+      play_music_if_near_home
     end
   end
 
@@ -72,13 +71,7 @@ class Phone < ActiveRecord::Base
 
     home_address = GoogleGeocoder.geocode(raspberry_pi.home.address)
 
-    if home_address.distance_to(phone_location) < raspberry_pi.home.radius
-      # If already home then don't trigger
-      is_home? ? false : true
-    else
-      update_attribute(:is_home, false)
-      false
-    end
+    home_address.distance_to(phone_location) < raspberry_pi.home.radius
   end
 
   private

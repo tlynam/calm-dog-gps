@@ -7,6 +7,6 @@ job_type :rbenv_rake, 'export PATH="$HOME/.rbenv/bin:$PATH"; eval "$(rbenv init 
 
 set :output, "~/cron_log.log"
 
-every (interval).minutes do
+every interval.minutes do
   rbenv_rake "calc_dist_play_music"
 end

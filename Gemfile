@@ -14,7 +14,7 @@ gem 'httparty'
 gem 'cocoon'
 gem 'simple_form'
 gem 'os'
-gem 'whenever'
+gem 'whenever' # Using private api, be careful when updating
 
 group :development, :test do
   gem 'pry-rails'

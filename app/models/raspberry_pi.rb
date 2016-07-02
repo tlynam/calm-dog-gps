@@ -14,12 +14,13 @@ class RaspberryPi < ActiveRecord::Base
 
   after_save :set_volume, if: :volume_changed?
   after_commit :set_cron, :if => Proc.new { |record|
-    record.previous_changes.key?(:interval) &&
-    record.previous_changes[:interval].first != record.previous_changes[:interval].last
+    record.previous_changes.key?(:interval)
   }
 
   def play_music
-    system("for run in {1..#{times_play_audio}}; do #{self.class.audio_player} #{audio_file}; done")
+    times_play_audio.times do
+      system("#{self.class.audio_player} #{audio_file}")
+    end
   end
 
   private
@@ -36,7 +37,9 @@ class RaspberryPi < ActiveRecord::Base
 
   def set_cron
     # Writing directly to crontab so don't need to load Rails env as it's slow on Pi
-    # https://github.com/javan/whenever/blob/master/lib/whenever/command_line.rb#L67
+    # https://github.com/javan/whenever/blob/19311d828/lib/whenever/command_line.rb#L67
+
+    fail 'Whenever was updated' unless Gem.loaded_specs['whenever'].version.to_s == '0.9.4'
     contents = Whenever::CommandLine.new.send(:updated_crontab)
     IO.popen('crontab -', 'r+') do |crontab|
       crontab.write(contents)
