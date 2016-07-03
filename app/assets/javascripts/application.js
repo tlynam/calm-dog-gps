@@ -17,9 +17,11 @@
 //= require_tree .
 
 $(function() {
-  $(".address").geocomplete();
+  $(".address").geocomplete()
 
-  $(".add-zone").click(function() {
-    $(".address").geocomplete();
-  });
+	$(document).on('cocoon:after-insert', function(event, insertedItem) {
+	  insertedItem.find(".address").geocomplete()
+	})
+
+  $("input.range").removeClass("form-control")
 });

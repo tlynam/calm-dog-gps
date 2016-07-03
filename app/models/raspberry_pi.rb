@@ -59,9 +59,8 @@ class RaspberryPi < ActiveRecord::Base
 
   def audio_duration_seconds
     if OS.osx?
-      output = `afinfo #{audio_file}`
-      duration_str = output.split("\n").find { |data| data.include?("estimated duration") }
-      duration_str.match(/\d+/).to_s.to_i
+      xml = Oga.parse_xml(`afinfo #{audio_file} -x`)
+      xml.at_css("duration").text.to_i
     elsif OS.linux?
       output = `avprobe #{audio_file} 2>&1`
       duration_str = output.split("\n").find { |data| data.include?("Duration:") }
