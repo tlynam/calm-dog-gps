@@ -16,5 +16,8 @@
 !/log/.keep
 /tmp
 
+# Ignore notes
+/notes
+
 # Ignore audio files
 /app/assets/audios
